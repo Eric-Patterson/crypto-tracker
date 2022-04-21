@@ -32,6 +32,7 @@ function CryptoInfo(props) {
   //     setCrypto(res.data);
   //   });
   // }, []);
+  // }, []);
 
   return (
     <div>
