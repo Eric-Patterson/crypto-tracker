@@ -25,15 +25,6 @@ function CryptoInfo(props) {
     movingHandler();
   }, [movingHandler]);
 
-  // useEffect(() => {
-  //   buttonHandler();
-  //   axios.get(`/api/${i}`).then((res) => {
-  //     console.log(res.data);
-  //     setCrypto(res.data);
-  //   });
-  // }, []);
-  // }, []);
-
   return (
     <div>
       <Button onClick={movingHandler}>Next Page</Button>
