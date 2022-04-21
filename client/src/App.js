@@ -11,13 +11,6 @@ function App() {
     });
   }, []);
 
-  useEffect(() => {
-    axios.get("/api").then((res) => {
-      console.log(res.data);
-      setCrypto(res.data);
-    });
-  }, []);
-
   // test
   // here is some more code
   return (
