@@ -24,9 +24,6 @@ function CryptoInfo(props) {
   useEffect(() => {
     movingHandler();
   }, [movingHandler]);
-  // useEffect(() => {
-  //   movingHandler();
-  // }, [movingHandler]);
 
   return (
     <div>
