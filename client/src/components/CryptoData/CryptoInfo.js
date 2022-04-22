@@ -1,5 +1,7 @@
-import Button from "../UI/Button";
-import CoinInfo from "./CoinInfo";
+import { useState, useEffect, useCallback, Fragment } from "react";
+
+import axios from "axios";
+import PageSelector from "./PageSelector";
 
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
@@ -17,9 +19,6 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 // import IncrementBar from "../UI/IncrementBar";
-
-import { useState, useEffect, useCallback, Fragment } from "react";
-import axios from "axios";
 
 // MUI STUFF
 function createData(
@@ -142,8 +141,6 @@ function CryptoInfo(props) {
     for (let i = count - 2; i <= count + 2; i++) {
       array.push(i);
     }
-
-    console.log(array);
   }
 
   incrementation(count);
@@ -176,15 +173,6 @@ function CryptoInfo(props) {
     apiCall();
   }, [apiCall]);
 
-  // key={coin.id}
-  // image={coin.image.thumb}
-  // name={coin.id}
-  // price={coin.market_data.current_price.usd}
-  // highs={coin.market_data.high_24h.usd}
-  // low={coin.market_data.low_24h.usd}
-  // change={coin.market_data.price_change_percentage_24h}
-  // change24h={coin.market_data.price_change_24h}
-
   let rows = [];
   if (crypto) {
     rows = crypto.map((crypto) => {
@@ -200,39 +188,8 @@ function CryptoInfo(props) {
     });
   }
 
-  // createData("Ice cream sandwich", 237, 9.0, 37, 4.3, 4.99),
-  // createData("Eclair", 262, 16.0, 24, 6.0, 3.79),
-  // createData("Cupcake", 305, 3.7, 67, 4.3, 2.5),
-  // createData("Gingerbread", 356, 16.0, 49, 3.9, 1.5),
-
   return (
     <div>
-      {/* <CollapsibleTable /> */}
-      <Button onClick={countDecrementHandler}>Previous Page</Button>
-      {array[0] > 1 && (
-        <Button
-          onClick={() => {
-            specificPageHandler(1);
-          }}
-        >
-          ...
-        </Button>
-      )}
-      {array.map(
-        (i) =>
-          i > 0 && (
-            <Button
-              key={i}
-              onClick={() => {
-                specificPageHandler(i);
-              }}
-            >
-              {i}
-            </Button>
-          )
-      )}
-      <Button onClick={countHandler}>Next Page {count}</Button>
-
       <TableContainer
         component={Paper}
         style={{ width: "1000px", margin: "0 auto ", marginTop: "50px" }}
@@ -256,116 +213,16 @@ function CryptoInfo(props) {
           </TableBody>
         </Table>
       </TableContainer>
-      {/* {crypto &&
-        crypto.map((coin) => (
-          <CoinInfo
-            key={coin.id}
-            image={coin.image.thumb}
-            name={coin.id}
-            price={coin.market_data.current_price.usd}
-            highs={coin.market_data.high_24h.usd}
-            low={coin.market_data.low_24h.usd}
-            change={coin.market_data.price_change_percentage_24h}
-            change24h={coin.market_data.price_change_24h}
-          />
-        ))} */}
+
+      <PageSelector
+        count={count}
+        array={array}
+        specificPageHandler={specificPageHandler}
+        decrement={countDecrementHandler}
+        increment={countHandler}
+      />
     </div>
   );
 }
 
 export default CryptoInfo;
-
-// import Button from "../UI/Button";
-// import CoinInfo from "./CoinInfo";
-// // import IncrementBar from "../UI/IncrementBar";
-
-// import { useState, useEffect, useCallback } from "react";
-// import axios from "axios";
-
-// function CryptoInfo(props) {
-//   const [crypto, setCrypto] = useState();
-//   const [count, setCount] = useState(1);
-
-//   let array = [];
-//   function incrementation(count) {
-//     for (let i = count - 2; i <= count + 2; i++) {
-//       array.push(i);
-//     }
-
-//     console.log(array);
-//   }
-
-//   incrementation(count);
-
-//   function countHandler() {
-//     setCount((prevCount) => prevCount + 1);
-//   }
-
-//   function countDecrementHandler() {
-//     setCount((prevCount) => prevCount - 1);
-//   }
-
-//   // page handler
-//   function specificPageHandler(i) {
-//     setCount(i);
-//     axios.get(`/api/${i}`).then((res) => {
-//       console.log(res.data);
-//       setCrypto(res.data);
-//     });
-//   }
-
-//   // useEffect api call for incrementing/decrementing the count
-//   const apiCall = useCallback(() => {
-//     axios.get(`/api/${count}`).then((res) => {
-//       setCrypto(res.data);
-//     });
-//   }, [count]);
-
-//   useEffect(() => {
-//     apiCall();
-//   }, [apiCall]);
-
-//   return (
-//     <div>
-//       <Button onClick={countDecrementHandler}>Previous Page</Button>
-//       {array[0] > 1 && (
-//         <Button
-//           onClick={() => {
-//             specificPageHandler(1);
-//           }}
-//         >
-//           ...
-//         </Button>
-//       )}
-//       {array.map(
-//         (i) =>
-//           i > 0 && (
-//             <Button
-//               key={i}
-//               onClick={() => {
-//                 specificPageHandler(i);
-//               }}
-//             >
-//               {i}
-//             </Button>
-//           )
-//       )}
-//       <Button onClick={countHandler}>Next Page {count}</Button>
-//       {crypto &&
-//         crypto.map((coin) => (
-//           <CoinInfo
-//             key={coin.id}
-//             image={coin.image.thumb}
-//             name={coin.id}
-//             price={coin.market_data.current_price.usd}
-//             highs={coin.market_data.high_24h.usd}
-//             low={coin.market_data.low_24h.usd}
-//             change={coin.market_data.price_change_percentage_24h}
-//             change24h={coin.market_data.price_change_24h}
-//           />
-//         ))}
-//     </div>
-//   );
-// }
-
-// export default CryptoInfo;
