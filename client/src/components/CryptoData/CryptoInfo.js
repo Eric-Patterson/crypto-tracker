@@ -1,4 +1,5 @@
 import Button from "../UI/Button";
+import CoinInfo from "./CoinInfo";
 // import IncrementBar from "../UI/IncrementBar";
 
 import { useState, useEffect, useCallback } from "react";
@@ -27,32 +28,64 @@ function CryptoInfo(props) {
     setCount((prevCount) => prevCount - 1);
   }
 
-  useEffect(() => {
-    console.log(count);
+  // page handler
+  function specificPageHandler(i) {
+    setCount(i);
+    axios.get(`/api/${i}`).then((res) => {
+      console.log(res.data);
+      setCrypto(res.data);
+    });
+  }
+
+  // useEffect api call for incrementing/decrementing the count
+  const apiCall = useCallback(() => {
     axios.get(`/api/${count}`).then((res) => {
       setCrypto(res.data);
     });
   }, [count]);
 
   useEffect(() => {
-    console.log(count);
-    axios.get(`/api/${count}`).then((res) => {
-      setCrypto(res.data);
-    });
-  }, [count]);
+    apiCall();
+  }, [apiCall]);
 
   return (
     <div>
       <Button onClick={countDecrementHandler}>Previous Page</Button>
-
-      {array.map((i) => i > 0 && <Button onClick={countHandler}>{i}</Button>)}
+      {array[0] > 1 && (
+        <Button
+          onClick={() => {
+            specificPageHandler(1);
+          }}
+        >
+          1
+        </Button>
+      )}
+      {array.map(
+        (i) =>
+          i > 0 && (
+            <Button
+              key={i}
+              onClick={() => {
+                specificPageHandler(i);
+              }}
+            >
+              {i}
+            </Button>
+          )
+      )}
       <Button onClick={countHandler}>Next Page {count}</Button>
       {crypto &&
         crypto.map((coin) => (
-          <div key={coin.id}>
-            <h1>{coin.id}</h1>
-            <img src={coin.image.thumb} alt="testing"></img>
-          </div>
+          <CoinInfo
+            key={coin.id}
+            image={coin.image.thumb}
+            name={coin.id}
+            price={coin.market_data.current_price.usd}
+            highs={coin.market_data.high_24h.usd}
+            low={coin.market_data.low_24h.usd}
+            change={coin.market_data.price_change_percentage_24h}
+            change24h={coin.market_data.price_change_24h}
+          />
         ))}
     </div>
   );
