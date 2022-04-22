@@ -1,33 +1,37 @@
-import Button from "../UI/Button";
+import ButtonCustom from "../UI/ButtonCustom";
 import React, { Fragment } from "react";
 
 function PageSelector(props) {
   return (
     <Fragment>
-      <Button onClick={props.decrement}>Previous Page</Button>
+      <ButtonCustom onClick={props.decrement} color="primary">
+        Previous Page
+      </ButtonCustom>
       {props.array[0] > 1 && (
-        <Button
+        <ButtonCustom
           onClick={() => {
             props.specificPageHandler(1);
           }}
         >
           ...
-        </Button>
+        </ButtonCustom>
       )}
       {props.array.map(
         (i) =>
           i > 0 && (
-            <Button
+            <ButtonCustom
               key={i}
               onClick={() => {
                 props.specificPageHandler(i);
               }}
             >
               {i}
-            </Button>
+            </ButtonCustom>
           )
       )}
-      <Button onClick={props.increment}>Next Page {props.count}</Button>
+      <ButtonCustom onClick={props.increment}>
+        Next Page {props.count}
+      </ButtonCustom>
     </Fragment>
   );
 }

@@ -190,6 +190,13 @@ function CryptoInfo(props) {
 
   return (
     <div>
+      <PageSelector
+        count={count}
+        array={array}
+        specificPageHandler={specificPageHandler}
+        decrement={countDecrementHandler}
+        increment={countHandler}
+      />
       <TableContainer
         component={Paper}
         style={{ width: "1000px", margin: "0 auto ", marginTop: "50px" }}
@@ -213,14 +220,6 @@ function CryptoInfo(props) {
           </TableBody>
         </Table>
       </TableContainer>
-
-      <PageSelector
-        count={count}
-        array={array}
-        specificPageHandler={specificPageHandler}
-        decrement={countDecrementHandler}
-        increment={countHandler}
-      />
     </div>
   );
 }
