@@ -1,6 +1,5 @@
 import { useState, useEffect, Fragment } from "react";
 
-import axios from "axios";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
@@ -15,7 +14,6 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { Pagination } from "@mui/material";
 
 // MUI STUFF
 function createData(
@@ -130,33 +128,10 @@ Row.propTypes = {
 };
 
 function CryptoInfo(props) {
-  const [crypto, setCrypto] = useState();
-  const [page, setPage] = useState(1);
-  const [numberOfPages, setNumberOfPages] = useState(274);
-
-  //FETCH MOVIES
-  const fetchCrypto = async () => {
-    try {
-      const { data } = await axios.get(`/api/${page}`);
-      setCrypto(data);
-      setNumberOfPages(numberOfPages);
-      // setNumberOfPages(data.length);
-    } catch (error) {}
-  };
-
-  useEffect(() => {
-    fetchCrypto();
-  }, [page]);
-
-  const handleChange = (page) => {
-    setPage(page);
-    window.scroll(0, 0);
-  };
-
   // rows of data for table
   let rows = [];
-  if (crypto) {
-    rows = crypto.map((crypto) => {
+  if (props.cryptoData) {
+    rows = props.cryptoData.map((crypto) => {
       return createData(
         crypto.id,
         crypto.image.thumb,
@@ -171,12 +146,6 @@ function CryptoInfo(props) {
 
   return (
     <div>
-      <Pagination
-        onChange={(e) => handleChange(e.target.textContent)}
-        count={numberOfPages}
-      />
-
-      {/* <Pagination count={10} color="secondary /> */}
       <TableContainer
         component={Paper}
         style={{ width: "1000px", margin: "0 auto ", marginTop: "50px" }}
