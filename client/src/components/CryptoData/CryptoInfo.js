@@ -1,8 +1,6 @@
-import { useState, useEffect, useCallback, Fragment } from "react";
+import { useState, useEffect, Fragment } from "react";
 
 import axios from "axios";
-import PageSelector from "./PageSelector";
-
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
@@ -17,8 +15,7 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-
-// import IncrementBar from "../UI/IncrementBar";
+import { Pagination } from "@mui/material";
 
 // MUI STUFF
 function createData(
@@ -134,45 +131,29 @@ Row.propTypes = {
 
 function CryptoInfo(props) {
   const [crypto, setCrypto] = useState();
-  const [count, setCount] = useState(1);
+  const [page, setPage] = useState(1);
+  const [numberOfPages, setNumberOfPages] = useState(274);
 
-  let array = [];
-  function incrementation(count) {
-    for (let i = count - 2; i <= count + 2; i++) {
-      array.push(i);
-    }
-  }
-
-  incrementation(count);
-
-  function countHandler() {
-    setCount((prevCount) => prevCount + 1);
-  }
-
-  function countDecrementHandler() {
-    setCount((prevCount) => prevCount - 1);
-  }
-
-  // page handler
-  function specificPageHandler(i) {
-    setCount(i);
-    axios.get(`/api/${i}`).then((res) => {
-      console.log(res.data);
-      setCrypto(res.data);
-    });
-  }
-
-  // useEffect api call for incrementing/decrementing the count
-  const apiCall = useCallback(() => {
-    axios.get(`/api/${count}`).then((res) => {
-      setCrypto(res.data);
-    });
-  }, [count]);
+  //FETCH MOVIES
+  const fetchCrypto = async () => {
+    try {
+      const { data } = await axios.get(`/api/${page}`);
+      setCrypto(data);
+      setNumberOfPages(numberOfPages);
+      // setNumberOfPages(data.length);
+    } catch (error) {}
+  };
 
   useEffect(() => {
-    apiCall();
-  }, [apiCall]);
+    fetchCrypto();
+  }, [page]);
 
+  const handleChange = (page) => {
+    setPage(page);
+    window.scroll(0, 0);
+  };
+
+  // rows of data for table
   let rows = [];
   if (crypto) {
     rows = crypto.map((crypto) => {
@@ -190,13 +171,12 @@ function CryptoInfo(props) {
 
   return (
     <div>
-      <PageSelector
-        count={count}
-        array={array}
-        specificPageHandler={specificPageHandler}
-        decrement={countDecrementHandler}
-        increment={countHandler}
+      <Pagination
+        onChange={(e) => handleChange(e.target.textContent)}
+        count={numberOfPages}
       />
+
+      {/* <Pagination count={10} color="secondary /> */}
       <TableContainer
         component={Paper}
         style={{ width: "1000px", margin: "0 auto ", marginTop: "50px" }}

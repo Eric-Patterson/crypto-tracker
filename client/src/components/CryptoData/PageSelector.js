@@ -4,6 +4,14 @@ import React, { Fragment } from "react";
 function PageSelector(props) {
   return (
     <Fragment>
+      {/* <PageSelector
+        theme={props.theme}
+        count={count}
+        array={array}
+        specificPageHandler={specificPageHandler}
+        decrement={countDecrementHandler}
+        increment={countHandler}
+      /> */}
       <ButtonCustom onClick={props.decrement} color="primary">
         Previous Page
       </ButtonCustom>
