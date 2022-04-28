@@ -97,7 +97,7 @@ const Navbar = () => {
 
           {/* pages map thru. */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <Link href="/cryptoinfo">
+            <Link href="/crypto">
               <Button
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
