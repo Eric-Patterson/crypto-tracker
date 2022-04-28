@@ -24,6 +24,8 @@ Boilerplate section for bugs.
 
 Eric Patterson
 
+Feel free to connect with me on LinkedIn.
+
 <a href="https://www.linkedin.com/in/ericlpatterson/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="Buy Me A Coffee" style="height: 50px !important;width: auto !important;"></a>
 ## License
 
