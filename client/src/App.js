@@ -1,30 +1,36 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import CryptoPage from "./components/Pages/CryptoPage";
+import Navbar from "./components/Navbar/Navbar";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { purple } from "@mui/material/colors";
+import Button from "@mui/material/Button";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      // Purple and green play nicely together.
+      main: purple[500],
+    },
+    secondary: {
+      // This is green.A700 as hex.
+      // main: "#11cb5f",
+      main: "#bbdefb",
+      darker: "#053e85",
+    },
+  },
+});
 
 function App() {
-  const [crypto, setCrypto] = useState([]);
-
-  useEffect(() => {
-    axios.get("/api").then((res) => {
-      console.log(res.data);
-      setCrypto(res.data);
-    });
-  }, []);
-
-  // test
-  // here is some more code
   return (
-    <div>
-      {/* display */}
-      {/* loop over data.data[i].id */}
-      {crypto &&
-        crypto.map((coin) => (
-          <div>
-            <h1>{coin.id}</h1>
-            <img src={coin.image.thumb}></img>
-          </div>
-        ))}
-    </div>
+    <ThemeProvider theme={theme}>
+      {/* <Button>Primary</Button>
+      <Button sx={{ color: "red" }}>Secondary</Button> */}
+      <Navbar />
+      <Routes>
+        <Route path="/" theme={theme} element={<CryptoPage />} />
+      </Routes>
+    </ThemeProvider>
   );
 }
 

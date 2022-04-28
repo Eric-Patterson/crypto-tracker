@@ -12,7 +12,18 @@ const port = 5000;
 app.get("/api", async (req, res) => {
   // https://api.coingecko.com/api/v3/coins
   // get api and res.send response
-  let response = await axios.get("https://api.coingecko.com/api/v3/coins");
+  let response = await axios.get(
+    "https://api.coingecko.com/api/v3/coins/?page=1"
+  );
+  res.send(response.data);
+});
+
+app.get("/api/:id", async (req, res) => {
+  // https://api.coingecko.com/api/v3/coins/bitcoin
+  // get api and res.send response
+  let response = await axios.get(
+    `https://api.coingecko.com/api/v3/coins/?page=${req.params.id}`
+  );
   res.send(response.data);
 });
 
